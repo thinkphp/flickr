@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<title>Flickr slideshow based on mootools</title>
+<script type="text/javascript" src="mootools.js"></script>
+<script type="text/javascript" src="class.moo.script.js"></script>
+<script type="text/javascript" src="showpic.js"></script>
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+<script>
+
+//mergesort@gmail.com
+//Execute function() when dom tree is loaded without waiting for image
+
+window.addEvent('domready', function(){
+
+
+                            new Moo().callFlickrUrl({method: 'flickr.photos.search',
+                                                     user_id:'23455178@N06',
+                                                     per_page:'30'
+                                                    });
+
+                           //handle the default callback method from Flickr
+                        
+                          jsonFlickrApi = function(rsp)
+                                   {
+
+
+
+                                     if(rsp.photos)  
+                                                {
+                                                //slideshow if photos are found
+                                                slideshow = new ShowPhotos(rsp);
+                                                }
+
+                                                else if(rsp.sizes) 
+             
+                                                            {slideshow.endResize(rsp);}//alert(rsp.sizes);}
+
+                                   }//end func
+
+});
+
+</script>
+</head>
+<body>
+
+
+        <!-- start -->         
+	<div id="MainCol">
+		<div id="MainColInner">
+			<div id="PhotoBox">				
+				<div style="height: 500px; width: 375px;" id="Container">
+					<img style="visibility: visible; opacity: 1; display: block;" id="Photo" src="img/c.gif" alt="Photo">
+					<div id="Controls" style="display: block; visibility: visible">
+						<a id="PrevLink" href="javascript://" title="Previous Photo">Previous</a>
+						<a id="PlayToggle" href="javascript://" title="Play/Pause Slideshow" class="play">Play</a>
+						<a id="NextLink" href="javascript://" title="Next Photo">Next</a>
+					</div>
+				    <div style="display: none;" id="Loading"><img src="img/loading.gif" alt="Loading..." height="16" width="16"> Loading...</div>
+				</div>
+				<div style="width: 375px;" id="CaptionContainer">
+					<a id="ViewThumbs" href="javascript://">Thumbnails</a>
+					<p><span id="Counter"></span><span id="Caption"></span></p>
+				</div>
+				<div id="ThumbContainer"></div>
+			</div>
+		</div>
+	</div>
+        <!-- end -->
+
+</body>
+</html>

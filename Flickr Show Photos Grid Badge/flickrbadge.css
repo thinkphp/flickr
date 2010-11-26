@@ -1,0 +1,13 @@
+ul#photos {
+width: 350px;
+list-style: none;
+}
+
+ul#photos li {
+float: left;
+margin: 5px;
+}
+
+ul#photos img{
+border: 5px solid orange;
+}

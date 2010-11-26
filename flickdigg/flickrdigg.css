@@ -1,0 +1,121 @@
+		*{
+			margin:0;
+			padding:0;
+			list-style:none;
+		}
+		body{
+			font-family:Verdana,arial,sans-serif;
+			font-size:.8em;
+			background:#ccc;
+		}
+		#boundary{
+			width:810px;
+			background:#fff;
+			padding:5px;
+			margin:2em auto;
+			height:420px;		
+			overflow:auto;
+			padding-bottom:1em;
+			position:relative;			
+		}
+		html>body #boundary{
+			min-height:400px;
+			height:auto;
+		}
+		#flickrdiggPhotos{
+			float:left;
+			margin:0;
+			padding:0;
+			list-style:none;
+			width:400px;
+		}
+		#flickrdiggPhotos li{
+			float:left;
+			width:75px;
+			height:75px;
+			margin:0;
+			padding:0;
+			list-style:none;
+		}
+		#flickrdiggPhotos li img{
+			border:none;
+		}
+		#delicious{
+			clear:both;
+		}
+		#flickrdiggTags{
+			float:left;
+			width:380px;
+			height:280px;
+			padding:10px;
+			overflow:auto;
+		}
+		#box{
+			height:300px;
+		}
+		html>body #box{
+			min-height:300px;
+			height:auto;
+		}
+		#flickrdiggTags li{
+			float:left;
+			padding: 0 1em 0 0;
+		}
+		#flickrdiggTags li a{
+			font-weight:bold;
+			color:#363;
+		}
+
+
+		form{
+			position:relative;
+			width:800px;
+			margin:0 auto;
+		}
+
+		#info{
+			width:500px;
+			position:relative;
+			min-height:300px;
+		}
+
+		#info img{
+			position:absolute;
+			display:block;
+			right:-250px;
+			top:10px;
+		}
+
+		#flickrdiggPhoto{
+			position:absolute;
+			top:4em;
+			right:3em;
+			border:3px solid #fff;
+		}
+
+		#flickrdiggPhoto img{
+			border:none;
+		}
+
+		h1{
+			font-family:"Trebuchet MS",Arial;
+			font-size:1.3em;
+			text-transform:uppercase;
+			color:#000;
+			padding:.5em .4em;
+		}	
+
+		#entry{
+			padding:.5em;
+			background:#696;
+			color:#fff;
+			font-weight:bold;
+		}
+		#info p{
+			margin:1em 0 0 0;
+			font-weight:bold;
+			color:#030;
+		}
+		#info p a{
+			color:#393;
+		}

@@ -1,0 +1,258 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+<title>Flickr and Google Maps Mashups</title>
+<style>
+
+ul#photos li, ul#photos img {
+	display: block;
+	margin: 0;
+	padding: 0;
+	border: none;
+	float: left;
+	width: 75px;
+	height: 75px;
+}
+ul#photos {
+	width: 375px; /* 75 * 5 */
+	position: absolute;
+	top: 0;
+	left: 375px;
+	margin: 0;
+	padding: 0;
+}
+div#gmap {
+	width: 375px;
+	height: 300px;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+div.infoBox {
+	height: 130px; /* Ensure room for 100px high thumbnail + h4 title */
+	width: 230px; /* Needs a width or IE breaks */
+	font-family: helvetica, arial, sans-serif;
+}
+div.infoBox img {
+	float: left;
+	margin-right: 5px;
+}
+div.infoBox h4 {
+	margin: 0 0 5px 0;
+}
+div.infoBox a {
+	font-size: 0.9em;
+	color: #666;
+}
+
+</style>
+<script type="text/javascript" src="http://www.google.com/jsapi?key=[Yout api key]"></script>
+<script>
+          google.load('maps','2');
+
+function showMap() {
+
+          window.gmap = new google.maps.Map2(document.getElementById('gmap'));
+
+          //center of Englad zoom level 5
+          gmap.setCenter(new google.maps.LatLng(44.47593,25.779418), 5);
+          gmap.setMapType(google.maps.SATELLITE_MAP);
+
+          //add controls
+          gmap.addControl(new google.maps.LargeMapControl()); 
+          gmap.addControl(new google.maps.MapTypeControl()); 
+}
+
+function jsonFlickrFeed(json) {
+ 
+     //assign to a global variable
+     window.jsonFromFlickr = json; 
+}
+
+</script>
+
+<script type="text/javascript" src="http://api.flickr.com/services/feeds/geo/?id=23455178@N06&amp;format=json"></script>
+<script>
+
+function showPhotos() { 
+
+          //if json is false then alert
+          if(!jsonFromFlickr) {
+ 
+             alert('Flickr photos failed to load'); 
+             return;
+
+          } 
+
+          //empty ul
+          var ul = document.getElementById('photos');
+
+          while(ul.hasChildNodes()) {
+
+            ul.removeChild(ul.firstChild);
+
+          }  
+
+          var bounds = new google.maps.LatLngBounds();  
+
+         //loop over the photos
+         for(var i = 0,photo; photo = jsonFromFlickr.items[i]; i++) {
+
+           var li = document.createElement('li');
+            var a = document.createElement('a');
+               a.href = photo.link;
+
+           var img = document.createElement('img');
+               img.src = photo.media.m.replace('_m','_s');
+
+               img.title = photo.title;
+               img.alt = photo.title;
+         
+               a.appendChild(img);
+               li.appendChild(a);
+
+              //add to the ul
+               ul.appendChild(li);
+
+           var point = new google.maps.LatLng(photo.latitude, photo.longitude);
+
+               bounds.extend(point);
+
+               photo.marker = new google.maps.Marker(point);
+           
+               gmap.addOverlay(photo.marker);
+
+               //hook up the link click event
+               google.maps.Event.addDomListener(a,'click',makeClickCallback(photo)); 
+
+               //hook up the marker click event
+               google.maps.Event.addListener(photo.marker,'click',makeClickCallback(photo));  
+                                            
+         }//end for
+
+       gmap.setZoom(gmap.getBoundsZoomLevel(bounds));
+       gmap.setCenter(bounds.getcenter);
+}
+
+
+function buildInfoWindow(photo) {
+
+      var div = document.createElement('div');
+
+          div.className = 'infoBox';
+
+          div.innerHTML = [
+                    '<h4>',photo.title,'</h4>',
+                    '<img src="', photo.media.m.replace('_m','_t'),
+                    '" alt="', photo.title, '">',
+                    '<a href="#">zoom in</a><br>',
+                    '<a href="', photo.link, '">photo page</a>'].join('');  
+
+          //add Event Listener
+
+         var link = div.getElementsByTagName('a')[0];   
+           
+           google.maps.Event.addDomListener(link, 'click',makeZoomCallback(photo));
+               
+
+  return div;
+}
+
+function stopEvent(ev){
+
+      ev = ev || window.event;
+
+      if(ev) {
+
+            if(ev.preventDefault) {
+
+               ev.preventDefault();
+
+            } else {
+
+               ev.returnValue = false;
+
+            }
+      }  
+
+}
+
+
+function makeClickCallback(photo) {
+
+     return function(ev) {
+
+        stopEvent(ev);
+
+         photo.marker.openInfoWindow(buildInfoWindow(photo));
+
+         highlightPhoto(photo)
+     }
+ 
+}
+    
+
+function highlightPhoto(photo) {
+
+     var ul = document.getElementById('photos');
+
+     var links = ul.getElementsByTagName('a');
+
+           for(var i=0, a; a = links[i]; i++) {
+
+                var img = a.getElementsByTagName('img')[0];
+
+                  if(a.href == photo.link) {
+
+                      img.style.opacity = 1;
+
+                      img.style.filter = 'alpha(opacity=100)';
+
+                  } else {
+
+                      img.style.opacity = 0.4;
+                      img.style.filter = 'alpha(opacity=40)'; 
+
+                  }
+
+           }
+
+}
+
+
+function makeZoomCallback(photo) {
+
+       //create a callback function that zooms the map to that photo
+
+         return function(ev) {
+
+                 stopEvent(ev);
+
+                 gmap.setCenter(new google.maps.LatLng(photo.latitude,photo.longitude), 14);
+
+                 photo.marker.openInfoWindow(buildInfoWindow(photo));
+
+                 highlightPhoto(photo); 
+         }
+
+}
+
+
+google.setOnLoadCallback(function(){
+showMap();
+showPhotos();
+});
+
+</script>
+</head>
+
+<body>
+
+<div id="gmap"></div>
+<ul id="photos">
+  <li><a href="#">My Flickr Photos</a></li>
+</ul> 
+
+</body>
+</html>

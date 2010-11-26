@@ -1,0 +1,177 @@
+/* 
+###############################
+project: slideshow access flickr
+author: Adrian Statescu
+###############################
+*/
+
+* { margin: 0; padding: 0; line-height: normal; }
+
+body {
+	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+	background-color:#333;
+	font-size: 62.5%;
+	color: #666;
+}
+
+/* Type Styles */
+
+p {
+	padding-bottom: 1.5em;
+}
+
+p, h4 {
+	font-size: 1.2em;
+	line-height: 1.5em;
+}
+
+h3 {
+	font-size: 1.8em;
+	color: #666;
+	margin-bottom: 1.5em;
+}
+
+a:link, a:visited { color: #0063DC; text-decoration: underline; }
+a:hover, a:visited:hover { color: #fff; background-color: #0063DC; text-decoration: none; }
+
+span a:link, span a:visited { text-decoration: none; }
+span a:hover, span a:visited:hover { color: #0063DC; background-color: transparent; text-decoration: underline; }
+
+
+/* Major Column */
+
+#MainCol {
+        position:absolute;
+        left:25%;
+        top:20px;
+	width: 560px;
+}
+
+#MainColInner {
+	background: #fff url(img/bkd_maincol.gif) left top no-repeat;
+	height: 570px;
+}
+
+
+/* Photo */
+
+#PhotoBox {
+	padding: 30px 30px 0 30px;
+}
+
+#Container {
+	position: relative;
+	height: 350px;
+	width: 500px;
+	margin: 0 auto;
+	background-color: #333;
+	border: none;
+	font-size: 0px;
+}
+
+
+/* Photo Navigation */
+
+#Controls {
+	display: none;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	background: transparent url(img/controls.gif) left top no-repeat;
+	height: 28px;
+	width: 67px;
+	filter:alpha(opacity=70);
+	-moz-opacity:0.7;
+	opacity: 0.7;
+}
+
+#Controls a {
+	text-indent: -9000px;
+	float: left;
+	display: block;
+	height: 28px;
+}
+
+#PrevLink { width: 25px; background: transparent url(img/controls.gif) left top no-repeat; }
+#PlayToggle { width: 17px; background: transparent url(img/controls.gif) -25px top no-repeat; }
+#NextLink { width: 25px; background: transparent url(img/controls.gif) -42px top no-repeat; }
+
+#PrevLink:hover { width: 25px; background: transparent url(img/controls.gif) left -28px no-repeat; }
+#PlayToggle:hover { width: 17px; background: transparent url(img/controls.gif) -25px -28px no-repeat; }
+#NextLink:hover { width: 25px; background: transparent url(img/controls.gif) -42px -28px no-repeat; }
+
+
+/* Loading */
+
+#Loading {
+	text-align: left;
+	padding: 20px 0 0 20px;
+	font-size: 11px;
+	color: #ccc;
+	font-weight: bold;
+	vertical-align: middle;
+}
+
+#Loading img {
+	vertical-align: -30%;
+	margin-right: 3px;
+}
+
+
+/* Caption */
+
+#CaptionContainer {
+	margin: 0 auto;
+	text-align: left;
+	padding: 5px 0;
+	width: 500px;
+}
+
+#CaptionContainer p {
+	font-size: 11px;
+	font-weight: bold;
+	padding: 0;
+	margin: 0;
+}
+
+#Counter {
+	padding-right: 5px;
+	color: #999;
+}
+
+
+/* Thumbnail View */
+
+#ViewThumbs {
+	margin-top: 2px;
+	display: block;
+	float: right;
+	text-indent: -9000px;
+	height: 13px;
+	width: 71px;
+	overflow: hidden;
+	background: transparent url(img/thumbnails.gif) left top no-repeat;
+}
+
+#ViewThumbs:hover, #ViewThumbs:visited:hover {
+	background: transparent url(img/thumbnails.gif) left -13px no-repeat;
+}
+
+#ThumbContainer {
+	display: none;
+}
+
+#ThumbContainer img {
+	display: block;
+	border: none;
+}
+
+#ThumbContainer a {
+	float: left;
+	margin: 0 4px 4px 0;
+}
+
+#ThumbContainer a:link, #ThumbContainer a:visited { border: 2px solid #999; }
+#ThumbContainer a:hover, #ThumbContainer a:visited:hover { border: 2px solid #0063DC; }
+#ThumbContainer a.selected:link, #ThumbContainer a.selected:visited, #ThumbContainer a.selected:hover, #ThumbContainer a.selected:visited:hover { border: 2px solid #FF0084; }
+

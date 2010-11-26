@@ -1,0 +1,190 @@
+body {
+  background: #A4A4A4 url(images/bg_gradient.png) repeat-x;
+}
+
+#intro {
+  position: absolute;
+  top: 15%;
+  left: 40px;
+  background: url(images/d.gif) no-repeat;
+  padding: 5px 0 0 61px;
+  width: 250px;
+  color: #fff;
+  font-family: Georgia, serif;
+  font-size: 0.8em;
+}
+
+#intro span {
+  position: absolute;
+  top: -1000px;
+}
+
+#intro p {
+  margin: 0 0 12px 0;
+}
+
+
+
+#portfolio {
+  position: absolute;
+  top: 35%;
+  left: 0;
+  width: 100%;
+  height: 240px;
+  background: url(images/bg_checkered.gif);
+}
+
+
+#tree {
+  position: absolute;
+  bottom: 0;
+  right: 40px;
+  background: url(images/tree.gif) no-repeat;
+  width: 331px;
+  height: 400px;
+}
+
+#logo {
+  position: absolute;
+  top: 15%;
+  right: 100px;
+  width: 334px;
+  height: 305px;
+  background: url(images/logo.gif) no-repeat;
+  text-indent: -9999em;
+  margin: 0;
+  z-index: 3;
+}
+
+
+
+ul {
+
+position: absolute;
+top: 35%;
+left: 40px;
+padding: 0;
+z-index: 4;
+list-style: none inside;
+width: 260px;
+height: 244px;
+margin: 0;
+
+}
+
+ul li {
+
+width: 110px;
+height: 110px;
+float: left;
+margin: 0 18px 18px 0;
+background: url(images/bg_checkered_dark.gif);
+}
+
+ul li a 
+{
+float: left;
+width: 77px;
+height: 77px;
+margin: 18px 0 0 18px;
+}
+
+ul li a img {
+
+border: 0;
+}
+
+
+.controlls {
+float: left;
+width: 10px;
+height: 10px;
+padding: 20px;
+outline: 0;
+margin: 0;
+}
+
+
+.controlls img
+{
+border: 0;
+}
+
+.controlls
+{
+position: relative;
+left: 20px;
+top: 423px;
+}
+
+
+/* flickrshot */
+
+#flickrshot 
+{
+
+font-family: arial,sans-serif;
+background: #bbb;
+font-size:.8em;
+border:  1px solid #888;
+padding: 5px;
+width: 240px;
+margin: 10px auto;
+position: absolute;
+left: 50%;
+margin-left: -120px;
+}
+
+#flickrshot a.fjbcloser{
+
+position: absolute;
+right: 10px;
+top: 8px;
+color: #fff;
+font-weight: bold;
+text-decoration: none;
+z-index: 99;
+
+}
+
+
+#flickrshot img
+{
+border: none;
+margin: 0 auto;
+background:url(images/ajax-loader.gif) center center no-repeat transparent;
+}
+
+#flickrshot h4,#flickrshot p
+{
+margin: .2em 0;
+padding: 0;
+}
+
+#flickrshot h4
+{
+color: #ffc;
+font-size: 1em;
+background-color: #030;
+padding: .2em;
+margin: 0 0 .2em 0;
+}
+
+#flickrshot p
+{
+margin: .2em 0 0 0;
+}
+
+#flickrshot a
+{
+display: block;
+text-align: center;
+}
+
+#flickrshot p a{
+
+padding: .1em;
+margin: 0 0 0 0;
+font-weight: bold;
+color: #369;
+}

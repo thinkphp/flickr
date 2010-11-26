@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 1//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Exploring flickr tags and photos with YUI, JSON and Event Delegation</title>
+    <link rel="stylesheet" type="text/css" href="flickrdigg.css" />
+
+    <script type="text/javascript" src="yahoo-min.js"></script>
+    <script type="text/javascript" src="event-min.js"></script>
+    <script type="text/javascript" src="dom-min.js"></script>
+    <script type="text/javascript" src="animation-min.js"></script>
+    <script type="text/javascript" src="flickrdigg.js"></script>
+
+</head>
+<body>
+<div id="boundary">
+<h1>flickrdigg - Explore Flickr Tags and Photos</h1>
+<form action="#">
+<p id="entry"><label for="tag">Start with a tag:</label><input type="text" id="tag" name="tag" value="sitepoint"><input type="submit" value="do It" /></p>
+
+<div id="info">
+
+	<p><img src="http://farm4.static.flickr.com/3076/2648532477_febfbe3dc7_m.jpg" alt="Christian Heilmann training people on the YUI" />This is a timewasting experiment with <a href="http://flickr.com">Flickr</a>.</p>
+	<p>Simply enter a search term and see what photos people uploaded and which tags they used on these photos. 
+	Click any of the tags to see what other photos were uploaded with this tag and which other tags were used on 
+	those and so on and so forth.</p>
+	<p>Click any photo thumbnail to see a bigger version and click the bigger version to return to the thumbnails.</p>
+	<p>This experiment works with <a href="http://www.json.org">JSON</a> and the flicker RSS feed API, no Ajax involved!</p>
+
+	<p>Animation and other bells and whistles are provided by the <a href="http://developer.yahoo.com/yui/">YUI</a>.</p>
+</div>
+
+</form>
+</div>
+</body>
+</html>

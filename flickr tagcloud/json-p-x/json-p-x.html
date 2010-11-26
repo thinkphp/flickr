@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+   <title>Flickr TagCloud JavaScript Solution</title>
+   <style type="text/css">
+   html,body {font:14px 'trebuchet ms', tahoma, sans-serif;background:#000;color:#fff;}
+   h1{font:200% georgia,times,serif;}
+   a { color:#6bff63;padding: 4px;}
+   a:hover { background:#0D8000;color:#fff;}
+   #container{padding-left: 50px;}
+   #ft{margin-top:2em;color:#777;font-size:90%;}
+   #ft a{color:#ccc;}
+   </style>
+   <script type="text/javascript">
+ 
+   /* Show me love to the Module Pattern*/
+   /* Display tagcloud from flickr.com username: statescu*/
+   var flickrtagcloud = function() {
+
+       /* function that make the init */
+       function init() {
+
+             document.getElementById('container').innerHTML = "Loading..."; 
+
+             var root = 'http://query.yahooapis.com/v1/public/yql?q=';
+
+             var yql = 'select * from html where url="http://www.flickr.com/photos/statescua/tags/" and xpath="//p[@id=\'TagCloud\']"';
+
+             var src = root + encodeURIComponent(yql) + '&diagnostics=false&format=xml&callback=flickrtagcloud.seed';
+
+             loadScript(src,function(){if(window.console){console.log('XML loaded into SCRIPT NODE and call to seed');}});
+       };
+
+       /* function callback */
+       //@param xml(OBJECT) the object received from YQL
+       function seed(xml) {
+
+                var content = xml.results[0].replace(/href="\/photos\/statescua\/tags/gi,'href="http://www.flickr.com/photos/statescua/tags');
+
+                document.getElementById('container').innerHTML = content; 
+       };
+
+       /* Append a node SCRIPT into HEAD Element and is called the function callback */
+       //@param src (String) url to query 
+       //@param callback (Strinng) function to callbacl
+       function loadScript(src,callback) {
+
+                var script = document.createElement('script');
+
+                    script.setAttribute('type','text/javascript');
+
+                    if(script.readyState) {
+
+                            script.onreadystatechange = function(){
+
+                                   if(script.readyState == "loaded" || script.readyState == "complete"){
+
+                                             script.onreadystatechange = null;
+
+                                             callback();
+                                    }
+                           };
+
+                    } else {
+
+                           script.onload = function() {
+ 
+                                  callback(); 
+                           }                 
+                    }
+                  
+                    script.setAttribute('src',src);
+
+                    document.getElementsByTagName('head')[0].appendChild(script); 
+       };
+
+       //functon that correlate listener at events
+       //@param elem (String) the object which is correlate an listener
+       //@param evType (String) type of event ('click','mouseover','mouseout','load','scroll')
+       //@param fn (String) handler for event
+       function addEvent(elem,evType,fn,useCapture) {
+
+               if(elem.addEventListener) {
+
+                   return elem.addEventListener(evType,fn,useCapture);
+
+               } else if(elem.attachEvent) {
+
+                   return elem.attachEvent('on'+evType,fn);
+
+               } else {
+
+                   return elem['on'+evType] = fn;
+               }
+       } 
+ 
+       /* reveal the private function and return the object to the world */
+       return {init:init,seed:seed,addEvent: addEvent};
+   }();
+
+  //load the function in window and go
+  flickrtagcloud.addEvent(window,'load',flickrtagcloud.init,false);
+
+  </script>
+</head>
+<body>
+<div id="doc" class="yui-t7">
+   <div id="hd" role="banner"><h1>/ Flickr / thinkphp / tags /</h1></div>
+   <div id="bd" role="main">
+
+	<div class="yui-g">
+ 
+                <div id="container">
+                </div>
+	</div>
+
+	</div>
+   <div id="ft" role="contentinfo"><p>Created by Adrian Statescu</p></div>
+</div>
+</body>
+</html>

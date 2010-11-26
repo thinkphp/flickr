@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>getFlickr - a tool to retrieve photos and related tags by tag from flickr</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+  <link rel="stylesheet" type="text/css" href="getFlickr.css" />
+  <script type="text/javascript" src="getFlickr.js"></script>
+
+  <script type="text/javascript">
+ 
+           function populate() {
+
+                 var tag = document.getElementById('tag').value;
+ 
+                 document.getElementById('tags').innerHTML = getFlickr.tags[tag];
+
+                 document.getElementById('images').innerHTML = getFlickr.html[tag].replace(/_m/g,'_s');
+           } 
+  </script>
+
+</head>
+<body>
+<h1>getFlickr - a tool to retrieve photos and related tags by tag from flickr</h1>
+
+<ul>
+<li><a href="http://www.flickr.com/photos/tags/santa" class="getflickrphotos">Santa</a></li>
+<li><a href="http://www.flickr.com/photos/tags/php" class="getflickrphotos">PHP</a></li>
+<li><a href="http://www.flickr.com/photos/tags/javascript" class="getflickrphotos">JavaScript</a></li>
+<li><a href="http://www.flickr.com/photos/tags/css" class="getflickrphotos">CSS</a></li>
+<li><a href="http://www.flickr.com/photos/tags/drunk" class="getflickrphotos">Drunk</a></li>
+</ul>
+<br/>
+<p><input type="text" name="tag" id="tag" /><input type="button" onclick="if(document.getElementById('tag').value == '') {return;};getFlickr.init(document.getElementById('tag').value,'populate');return false" value="getTags"/></p>
+
+<h2>Tags:</h2>
+<div id="tags"></div>
+
+<h2>Images:</h2>
+<div id="images"></div>
+
+<div id="ft">Written by Adrian Statescu &copy; 2009 Some Rights Reserved</div>
+</body>
+</html>

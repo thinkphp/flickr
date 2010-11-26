@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+<head>
+<title>My Flickr Photos in a Grid</title>
+<script>
+function jsonFlickrFeed(json) {
+          
+   //assign to global variable
+   window.jsonFromFlickr = json;
+          
+}
+</script>
+<script type="text/javascript" src="http://api.flickr.com/services/feeds/photos_public.gne?id=23455178@N06&format=json"></script>
+<script>
+
+function makePhotos(photo) {
+
+       var li = document.createElement('li');
+
+       var a = document.createElement('a');
+
+           a.href = photo.link;
+
+        var img = document.createElement('img');
+
+            img.alt = photo.title;
+
+            img.src = photo.media.m.replace('_m','_s');
+
+            img.title = photo.title;
+
+            a.appendChild(img);       
+
+           li.appendChild(a); 
+
+           
+    return li;
+}
+
+
+function showPhotos() {
+
+       if(!jsonFromFlickr) {
+ 
+             alert('Unable to load photos.') ;
+
+             return;
+       } 
+
+       var ul = document.getElementById('photos');
+
+           while(ul.hasChildNodes()) {
+
+               ul.removeChild(ul.firstChild);
+           } 
+
+       for(var i = 0,j = 0, photo; photo = jsonFromFlickr.items[i], j <= 8 ; i++, j++) {
+
+             ul.appendChild(makePhotos(photo));  
+       }
+
+}
+
+window.onload = showPhotos;
+
+</script>
+
+<style>
+
+ul#photos {
+width: 350px;
+list-style: none;
+}
+
+ul#photos li {
+float: left;
+margin: 5px;
+}
+
+ul#photos img{
+border: 5px solid orange;
+}
+</style>
+</head>
+<body>
+<ul id="photos">
+<li><a href="http://www.flickr.com/photos/23455178@N06">My Flickr Photos</a></li>
+</ul>
+</body>
+</html>

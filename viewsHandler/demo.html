@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>viewsHandler Demo</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+  <style>
+  .hiddenview {
+    position: absolute;
+    top: 0;
+    left: -9999px;  
+  }
+  #shell {
+    border: 1px solid #ccc;
+    width: 700px;
+    margin: 2em auto;
+    padding: 5px;
+    color: #777;  
+  }
+  </style>
+</head>
+<body>
+<div id="shell">
+
+</div>
+
+
+<script type="text/javascript" src="viewsHandler.js"></script>
+<script type="text/javascript">
+
+  myApp = function() {
+
+      var views = {
+
+         index: {
+         
+            create: createIndex
+
+         },
+
+         detail: {
+
+            create: createDetail
+
+         },
+
+         info: {
+
+             create: createInfo  
+         }  
+
+       };      
+ 
+
+       function createIndex() {
+
+            var heading = document.createElement('h1');
+
+               viewsHandler.add('index',heading);
+         
+               viewsHandler.define('index','heading',heading);  
+
+            var p = document.createElement('p');
+
+               viewsHandler.add('index',p);
+
+               viewsHandler.define('index','intro',p); 
+
+            var button = viewsHandler.linkto('detail','Switch to detail');
+
+               viewsHandler.add('index',button);
+       };
+
+       function createDetail() {
+
+            var heading = document.createElement('h1');
+
+               viewsHandler.add('detail',heading);
+         
+               viewsHandler.define('detail','heading',heading);  
+
+            var p = document.createElement('p');
+
+               viewsHandler.add('detail',p);
+
+               viewsHandler.define('detail','intro',p); 
+
+
+            var button = viewsHandler.linkto('info','Switch to info');
+
+               viewsHandler.add('detail',button);
+
+
+       };
+
+       function createInfo() {
+
+            var heading = document.createElement('h1');
+
+               viewsHandler.add('info',heading);
+         
+               viewsHandler.define('info','heading',heading);  
+
+
+            var p = document.createElement('p');
+
+               viewsHandler.add('info',p);
+
+               viewsHandler.define('info','intro',p); 
+
+
+            var button = viewsHandler.linkto('index','Switch to index');
+
+               viewsHandler.add('info',button);
+
+       } 
+
+
+       return {
+
+          init: function() {
+
+              var canvas = document.getElementById('shell');
+
+                  if(canvas) {
+
+                    viewsHandler.create(canvas,views); 
+                    viewsHandler.set('index','heading','This is index heading');
+                    viewsHandler.set('index','intro','This is content for Index');
+                    viewsHandler.set('detail','heading','This is detail heading');
+                    viewsHandler.set('detail','intro','This is content for detail');
+                    viewsHandler.set('info','heading','This is info heading');                      
+                    viewsHandler.set('info','intro','This is content for info');
+                    viewsHandler.view('detail');
+
+                  };             
+
+
+           }//end function init
+
+
+        };//end return
+
+     }();    
+
+     myApp.init();
+  </script>
+
+</body>
+</html>

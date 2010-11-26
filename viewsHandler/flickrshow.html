@@ -1,0 +1,469 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Flickr Photo Show - An Example For Framework viewsHandler</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+  <style>
+
+  body {
+ 
+    background: #999;
+    color: #000;
+
+  }
+
+  #shell {
+
+    background-color: #fff;
+    border: 1px solid #363;
+    padding: 10px;
+    margin: 10px auto;
+    width: 520px;
+    text-align: center;
+    font-family: arial, sans-serif;
+    color: #000;
+    -moz-border-radius: 5px;
+
+  }
+
+  #shell p {
+
+    text-align: left;
+  }
+
+  #shell a {
+   
+    color: #363;
+  }
+
+  .hiddenview {
+     position: absolute;
+     top: 0px;
+     left: -9999px;
+  }
+
+  img {
+
+     display: block;
+     margin: 0 auto;
+     border: 1px solid #999;
+     padding: 5px;  
+  }  
+
+  .author{font-weight: bold;}
+
+  h1 {
+
+     text-transform: uppercase;
+     letter-spacing: -1px;
+     font-weight: normal;
+     color: #060;
+     font-family:"Gill Sans","trebuchet ms",Arial,Sans-serif;
+     font-size: 130%;
+  } 
+
+   .button {
+
+    clear: both;
+    text-align: right;
+    padding: .5em; 
+ 
+   }
+
+  .button a {
+
+    background:#cfc;
+    color: #000;
+    border: 1px solid #396; 
+    outline: 0;
+    font-weight: bold;
+    text-decoration: none;
+    padding: .5em;
+    -moz-border-radius: 5px;
+  }
+
+  #shell .button a:hover {
+ 
+    background: #396;
+    color: #000;
+    
+  }
+
+  #thumbnails ul {
+
+    width: 500px;
+    margin: 0px;
+    padding: 0px;  
+       
+  }
+
+  #thumbnails li { 
+
+    float: left;
+    margin: 0px;
+    text-align: center;
+    padding: 0px;
+    width: 100px;
+    height: 100px;
+    list-style: none;      
+
+  }
+  </style>
+</head>
+<body>
+
+<div id="shell">
+<a href="http://www.flickr.com/photos/tags/federer">Rabbit photos on Flickr</a>
+</div>
+
+<script type="text/javascript" src="viewsHandler.js"></script>
+<script type="text/javascript">
+
+flickrshow = function(){
+
+    var views = {
+
+        index: {
+
+           create: createIndex 
+        },
+
+        detail: {
+
+           create: createDetail
+        },
+
+        info: {
+
+           create: createInfo
+        }        
+
+    };
+
+    var photos = [];
+
+    var tag = null;    
+
+    var source = null;
+ 
+    function init() {
+ 
+         var canvas = document.getElementById('shell');
+
+             if(canvas) {
+
+                var link = canvas.getElementsByTagName('a');
+
+                    if(typeof link[0] !== 'undefined') {
+
+                          source = link[0];
+
+                          tag = link[0].getAttribute('href').replace(/.*\//,'');
+
+                      var APIurl = 'http://api.flickr.com/services/feeds/photos_public.gne?tags='+tag+'&format=json&jsoncallback=flickrshow.seed';
+
+                      var script = document.createElement('script');
+
+                          script.setAttribute('type','text/javascript');
+
+                          script.setAttribute('src',APIurl);
+
+                          document.getElementsByTagName('head')[0].appendChild(script);                      
+
+                    }
+
+                viewsHandler.create(canvas,views);
+ 
+             };//endif
+
+    }; 
+
+
+    function dataRetrieved(json) {
+
+      var authormatch = /\([^\)]+\)/;
+
+      var authorcleanup = /\(|\)/g;     
+ 
+        for(var i=0;i<json.items.length;i++) {
+
+             var author = json.items[i].author.match(authormatch); 
+
+                 author = author[0].replace(authorcleanup,'');
+              
+             var photo = {
+                           title: json.items[i].title,
+                           link: json.items[i].link,
+                           src: json.items[i].media.m,
+                           authorname: author,
+                           authorid: json.items[i].author_id,
+                           tags: json.items[i].tags                 
+                         };          
+ 
+                 photos.push(photo);          
+
+          };//endfor
+
+                 source.parentNode.removeChild(source);
+
+       var all = photos.length;
+ 
+         if(all>=1) {
+
+             var ul = document.createElement('ul');
+
+               for(var i=0;i<all;i++) {
+            
+                     var li = document.createElement('li');
+
+                     var a = document.createElement('a');
+
+                         a.setAttribute('href',photos[i].link);
+
+                         a.count = i;
+
+                     var img = createImage(photos[i].src.replace('_m','_s'),photos[i].title);
+
+                         a.appendChild(img);
+
+                         li.appendChild(a);
+
+                         ul.appendChild(li); 
+
+               };//endfor
+
+                 
+                   viewsHandler.set('index','thumbs',ul);
+                   evHelp.addEvent(ul,'click',clickedThumb,false);
+
+                 //set data for view info
+                   viewsHandler.set('info','heading',json.title);   
+
+               var link = document.createElement('a');
+                   link.setAttribute('href',json.link);
+                   link.appendChild(document.createTextNode(json.link)); 
+                   viewsHandler.set('info','link',link); 
+                  
+                   viewsHandler.set('info','amount',all); 
+                            
+                   viewsHandler.set('info','modified',json.modified); 
+   
+                   viewsHandler.view('index');
+
+          };//endif
+
+    };
+
+    function clickedThumb(e) { 
+
+        var t = evHelp.getTarget(e);
+ 
+        var photo = ( t.nodeName.toLowerCase() === 'a' ) ? t.count : t.parentNode.count;
+
+            viewsHandler.set('detail','heading',photos[photo].title);
+
+        var link = document.createElement('a');
+ 
+            link.setAttribute('href',photos[photo].link);
+
+        var dolly = link.cloneNode(true);
+
+        var img = createImage(photos[photo].src,photos[photo].title);
+
+            link.appendChild(img);
+
+            dolly.appendChild(document.createTextNode(photos[photo].title));
+
+            viewsHandler.set('detail','image',link);     
+            viewsHandler.set('detail','title',dolly);
+            viewsHandler.set('detail','author', photos[photo].authorname);
+ 
+            viewsHandler.view('detail');
+
+
+            evHelp.cancelCLICK(e); 
+    }; 
+
+
+    function createIndex() {
+
+          var heading = document.createElement('h1');
+              heading.appendChild(document.createTextNode('Photos of ' + tag + ' on Flickr'));
+              viewsHandler.add('index',heading);
+
+          var thumbnails = document.createElement('div');
+              thumbnails.id = 'thumbnails';
+              viewsHandler.add('index',thumbnails);
+              viewsHandler.define('index','thumbs',thumbnails);
+
+          var button = viewsHandler.linkto('info','Get Feed Information');
+          var div = document.createElement('div');
+              div.className = 'button';
+              div.appendChild(button); 
+              viewsHandler.add('index',div);                                
+
+    };
+
+
+
+    function createDetail() {
+
+          var heading = document.createElement('h1');
+              viewsHandler.add('detail',heading);
+              viewsHandler.define('detail','heading',heading);
+
+          var img = document.createElement('div');
+              viewsHandler.add('detail',img);
+              viewsHandler.define('detail','image',img);
+
+          var p = document.createElement('p');
+          var title = document.createElement('span'); 
+          var author = document.createElement('span'); 
+              author.className = 'author';       
+              p.appendChild(title);
+              p.appendChild(document.createTextNode(' by '));
+              p.appendChild(author);
+
+
+              viewsHandler.add('detail',p);
+              viewsHandler.define('detail','title',title);
+              viewsHandler.define('detail','author',author);
+
+
+          var button = viewsHandler.linkto('index','Back to Thunbnails');
+          var div = document.createElement('div');
+              div.className = 'button';
+              div.appendChild(button);
+              viewsHandler.add('detail',div);  
+
+
+    };
+
+    function createInfo() {
+
+         var heading = document.createElement('h1');
+             viewsHandler.add('info',heading);
+             viewsHandler.define('info','heading',heading);
+
+
+         var linkpara = document.createElement('p');
+             linkpara.appendChild(document.createTextNode('Flickr URL: '));
+         var link = document.createElement('span');
+             linkpara.appendChild(link);
+             viewsHandler.add('info',linkpara);
+             viewsHandler.define('info','link',link);
+
+         var amountpara = document.createElement('p');
+             amountpara.appendChild(document.createTextNode('Amount Of Photos: '));
+         var amount = document.createElement('span');
+             amountpara.appendChild(amount);
+             viewsHandler.add('info',amountpara);
+             viewsHandler.define('info','amount',amount);
+
+         var modifiedpara = document.createElement('p');
+             modifiedpara.appendChild(document.createTextNode('Modified on: '));
+         var modified = document.createElement('span');
+             modifiedpara.appendChild(modified);
+             viewsHandler.add('info',modifiedpara);
+             viewsHandler.define('info','modified',modified);
+       
+  
+         var button = viewsHandler.linkto('index','Back to thumbnails');
+         var div = document.createElement('div');
+             div.className = 'button';
+             div.appendChild(button);
+             viewsHandler.add('info',div);  
+   
+
+    }; 
+
+    function createImage(src,alt) {
+
+        var img = document.createElement('img');
+     
+            img.setAttribute('src',src);
+
+            img.setAttribute('alt',alt);
+
+        return img;
+    };
+
+
+    var evHelp = {
+
+       getTarget: function(e) {
+
+           var target = window.event ? window.event.srcElement : e ? e.target : null;
+
+              if (!target){return false;}
+
+                while(target.nodeType!=1 && target.nodeName.toLowerCase()!='body'){
+ 
+                target=target.parentNode;
+              }
+
+              return target;
+
+       },
+
+       addEvent: function(elem,evType,fn,useCapture) {
+
+              if(elem.addEventListener) {
+
+                 elem.addEventListener(evType, fn, useCapture);
+
+                return true;  
+
+              } else if(elem.attachEvent) {
+
+                var r = elem.attachEvent('on' + evType, fn);
+
+                return r;
+
+              } else {
+                       elem['on'+evType] = fn; 
+                     }              
+
+       },
+
+       cancelCLICK: function(e) {
+
+
+             if (window.event){
+
+                window.event.cancelBubble = true;
+
+                window.event.returnValue = false;
+
+              }
+
+              if (e && e.stopPropagation && e.preventDefault){
+
+                e.stopPropagation();
+
+                e.preventDefault();
+
+              }
+
+
+       }
+
+    };
+
+
+   return {
+
+     init: init,
+     seed: dataRetrieved
+
+   };
+ 
+
+}(); 
+
+
+flickrshow.init();
+
+</script>
+</body>
+</html>

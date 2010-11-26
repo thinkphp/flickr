@@ -1,0 +1,136 @@
+
+   		*{
+			margin:0;
+			padding:0;
+			list-style:none;
+		}
+		body{
+			font-family:arial,sans-serif;
+			padding:3em;
+                        background: #333;
+                        color: #ccc;
+		}
+		#photos{
+			float:left;
+		}
+		dl,dd{
+			padding-bottom:.5em;
+		}
+		h1{
+			font-size: 200%;
+                        font-family: helvetica,arial,verdana,sans-serif;
+			padding:.2em 0;
+                        background: #393;
+                        color: #fff;
+                        border-radius: 10px;
+                        -moz-border-radius: 10px; 
+                        -webkit-border-radius: 10px;
+                        padding: 10px;
+                        margin-top: 20px;
+                        margin-bottom: 20px;
+                        width: 90%;
+                        text-transform: capitalize; 
+		}
+		h2{
+			font-size:1.3em;
+			padding:.5em 0;
+                        background: #393;
+                        color: #fff;
+                        border-radius: 10px;
+                        -moz-border-radius: 10px; 
+                        -webkit-border-radius: 10px;
+                        padding: 10px;
+                        margin-top: 20px;
+                        margin-bottom: 20px;
+                        width: 8%;
+		}
+		h3{
+			font-size:1em;
+			padding:1em 0;
+		}
+		dl{
+			margin:1em;
+			padding-left:2em;
+		}
+		dd{
+			padding-left:1em;
+		}
+		
+		#photos li {
+			float:left;
+
+		}
+		#photos li img{
+			display:block;
+		}
+ 		p{
+			clear:both;
+			padding:0 0 .5em 0;
+               }
+
+		#flickrgetviewer,#flickrgetviewer li{
+			list-style:none;
+			margin:0;
+			padding:0;
+		}
+		#flickrgetviewer{
+			width:375px;
+			position:absolute;
+			top:0;
+			left:50%;
+			margin-left:-200px;
+		}
+		#flickrgetviewer li{
+			width:75px;
+			height:75px;
+			float:left;
+		}
+		#flickrgetviewer img{
+			display:block;
+			border:none;
+		}
+		#flickrgetviewer img{
+			display:block;
+			border:none;
+		}
+		#flickrgetviewer div{
+			position:absolute;
+			top:50%;
+			left:50%;
+			margin-top:-25%;
+			margin-left:-25%;
+			border:5px solid #fff;
+		}
+		#flickrgetviewer a{
+			display:block;
+			background:#ddd;
+			color:#000;
+			text-align:right;
+			padding:.2em .5em;
+			font-weight:bold;
+		}
+		#flickrgetviewer li a,#flickrgetviewer div a{
+			display:inline;
+			padding:0;
+		}
+
+                #images li {display: inline}
+
+                #images li img{border: none}
+
+                .getflickrphotos{color: #ccc;}  
+
+                input { 
+
+                  border: 1px solid #ccc;
+
+                  font-size: 30px;
+
+                  padding: 4px;
+
+                  margin: 4px;
+
+                  text-align: center
+                }
+
+               #ft {font-size: 12px}
