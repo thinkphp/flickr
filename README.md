@@ -5,5 +5,5 @@ I'll use JavaScript to display badges through the flickr Application Programming
 
 Notes: 
 
-You can view in action: http://thinkphp.ro/apps/flickr/
+You can view in action: [http://thinkphp.ro/apps/flickr/](http://thinkphp.ro/apps/flickr/)
 
